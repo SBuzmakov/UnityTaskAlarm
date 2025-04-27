@@ -7,19 +7,9 @@ namespace Source.Scripts
         [SerializeField] private InputService _inputService;
         [SerializeField] private float _speed;
 
-        private void OnEnable()
+        private void Update()
         {
-            _inputService.PressedMoveButton += Move;
-        }
-
-        private void OnDisable()
-        {
-            _inputService.PressedMoveButton -= Move;
-        }
-        
-        private void Move(float direction)
-        {
-            transform.Translate(Vector3.right * (_speed * Time.deltaTime *  direction));
+            transform.Translate(Vector3.right * (_speed * Time.deltaTime *  _inputService.Direction));
         }
     }
 }
