@@ -9944,6 +9944,7 @@ GameObject:
   - component: {fileID: 2136450525}
   - component: {fileID: 2136450526}
   - component: {fileID: 2136450527}
+  - component: {fileID: 2136450528}
   m_Layer: 0
   m_Name: dogLeshaAlarm
   m_TagString: Untagged
@@ -10082,7 +10083,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 5d8fbccd39d68d54f883d4c051ecbcb2, type: 3}
   m_Resource: {fileID: 8300000, guid: 5d8fbccd39d68d54f883d4c051ecbcb2, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0
   m_Pitch: 0.8
   Loop: 1
@@ -10179,8 +10180,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bbf4e1eb685de041886fbb2543384b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _volumeSoundStep: 0.001
   _alarmSound: {fileID: 2136450525}
-  _soundStepTime: 0.17
+  _trigger: {fileID: 2136450528}
 --- !u!61 &2136450527
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10225,8 +10227,20 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.85, y: 1.6}
+  m_Size: {x: 1.91, y: 1.6}
   m_EdgeRadius: 0
+--- !u!114 &2136450528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2136450519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 034af4675340c624182f450acf5fd2e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2145345103
 GameObject:
   m_ObjectHideFlags: 0
@@ -10412,10 +10426,10 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1062349954342725837, guid: 8ec77fdfce2391340852a4f3cace7d5d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4762167250362862396}
+      addedObject: {fileID: 4762167250362862395}
     - targetCorrespondingSourceObject: {fileID: 1062349954342725837, guid: 8ec77fdfce2391340852a4f3cace7d5d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4762167250362862395}
+      addedObject: {fileID: 4762167250362862396}
   m_SourcePrefab: {fileID: 100100000, guid: 8ec77fdfce2391340852a4f3cace7d5d, type: 3}
 --- !u!4 &4762167250362862393 stripped
 Transform:
@@ -10482,7 +10496,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1302171215}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 034af4675340c624182f450acf5fd2e5, type: 3}
+  m_Script: {fileID: 11500000, guid: 127ae055b7ad48f1b0a6c3fa20e085a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _houseWall: {fileID: 4762167250362862394}

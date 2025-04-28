@@ -1,21 +1,23 @@
+using System;
 using UnityEngine;
 
 namespace Source.Scripts
 {
-    public class HouseEnterTrigger : MonoBehaviour
+    public class AlarmTrigger : MonoBehaviour
     {
-        [SerializeField] private SpriteRenderer _houseWall;
+        public event Action Entered;
+        public event Action Exited;
 
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.TryGetComponent<Player>(out _))
-                _houseWall.enabled = false;
+                Entered?.Invoke();
         }
 
         private void OnTriggerExit2D(Collider2D other)
         {
             if (other.TryGetComponent<Player>(out _))
-                _houseWall.enabled = true;
+                Exited?.Invoke();
         }
     }
 }

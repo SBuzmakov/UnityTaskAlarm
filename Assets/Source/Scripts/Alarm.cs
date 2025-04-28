@@ -5,59 +5,57 @@ namespace Source.Scripts
 {
     public class Alarm : MonoBehaviour
     {
-        private const float VolumeSoundStep = 0.1f;
+        private const float MinVolume = 0f;
+        private const float MaxVolume = 1.0f;
 
+        [SerializeField] private float _volumeSoundStep;
         [SerializeField] private AudioSource _alarmSound;
-        [SerializeField] private float _soundStepTime;
+        [SerializeField] private AlarmTrigger _trigger;
 
         private Coroutine _coroutine;
-        private WaitForSeconds _wait;
 
-        private void Awake()
+        private void OnEnable()
         {
-            _wait = new WaitForSeconds(_soundStepTime);
-        }
-        
-        private void OnTriggerEnter2D(Collider2D other)
-        {
-            if (other.TryGetComponent<Player>(out _))
-            {
-                if (_coroutine != null)
-                    StopCoroutine(_coroutine);
-
-                _coroutine = StartCoroutine(IncreaseVolumeJob());
-            }
+            _trigger.Entered += StartIncreaseVolumeCoroutine;
+            _trigger.Exited += StartDecreaseVolumeCoroutine;
         }
 
-        private void OnTriggerExit2D(Collider2D other)
+        private void OnDisable()
         {
-            if (other.TryGetComponent<Player>(out _))
-            {
-                if (_coroutine != null)
-                    StopCoroutine(_coroutine);
-
-                _coroutine = StartCoroutine(DecreaseVolumeJob());
-            }
+            _trigger.Entered -= StartIncreaseVolumeCoroutine;
+            _trigger.Exited -= StartDecreaseVolumeCoroutine;
         }
 
-        private IEnumerator IncreaseVolumeJob()
+        private void StartIncreaseVolumeCoroutine()
         {
-            for (float i = 0; i < 1; i += VolumeSoundStep)
-            {
-                _alarmSound.volume += VolumeSoundStep;
+            if (_coroutine != null)
+                StopCoroutine(_coroutine);
 
-                yield return _wait;
-            }
+            _coroutine = StartCoroutine(ChangeVolume(MaxVolume));
         }
 
-        private IEnumerator DecreaseVolumeJob()
+        private void StartDecreaseVolumeCoroutine()
         {
-            for (float i = _alarmSound.volume; i >= 0; i -= VolumeSoundStep)
-            {
-                _alarmSound.volume -= VolumeSoundStep;
+            if (_coroutine != null)
+                StopCoroutine(_coroutine);
 
-                yield return _wait;
+            _coroutine = StartCoroutine(ChangeVolume(MinVolume));
+        }
+
+        private IEnumerator ChangeVolume(float targetVolume)
+        {
+            if (_alarmSound.volume == 0)
+                _alarmSound.Play();
+
+            while (!Mathf.Approximately(_alarmSound.volume, targetVolume))
+            {
+                _alarmSound.volume = Mathf.MoveTowards(_alarmSound.volume, targetVolume, _volumeSoundStep);
+
+                yield return null;
             }
+
+            if (_alarmSound.volume == 0)
+                _alarmSound.Stop();
         }
     }
 }
