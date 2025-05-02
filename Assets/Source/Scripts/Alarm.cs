@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -13,6 +14,8 @@ namespace Source.Scripts
         [SerializeField] private AlarmTrigger _trigger;
 
         private Coroutine _coroutine;
+
+        public event Action Finished;
 
         private void OnEnable()
         {
@@ -55,7 +58,11 @@ namespace Source.Scripts
             }
 
             if (_alarmSound.volume == 0)
+            {
                 _alarmSound.Stop();
+                
+                Finished?.Invoke();
+            }
         }
     }
 }
