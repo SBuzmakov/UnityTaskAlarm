@@ -5,15 +5,19 @@ namespace Source.Scripts
 {
     public class Loot : MonoBehaviour
     {
-        public event Action<Loot> PlayerEntered;
+        public event Action<Loot> PickedUp;
         public event Action<Loot> Destroyed;
-        
-        private void OnTriggerEnter2D(Collider2D other)
+        public event Action NeededSpawn;
+
+        private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (other.TryGetComponent(out Player _))
-                PlayerEntered?.Invoke(this);
+            if (collision.gameObject.TryGetComponent(out Player _))
+            {
+                PickedUp?.Invoke(this);
+                NeededSpawn?.Invoke();
+            }
         }
-        
+
         private void OnDestroy()
         {
             Destroyed?.Invoke(this);

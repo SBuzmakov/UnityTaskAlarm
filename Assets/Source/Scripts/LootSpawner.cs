@@ -6,8 +6,7 @@ namespace Source.Scripts
     public class LootSpawner : MonoBehaviour
     {
         [SerializeField] private Loot _lootPrefab;
-        [SerializeField] private Transform _spawnPosition;
-        [SerializeField] private Alarm _alarm;
+        [SerializeField] private Collider2D _lootCollider;
         
         private ObjectPool<Loot> _pool;
         private LootFactory _lootFactory;
@@ -24,20 +23,11 @@ namespace Source.Scripts
             SpawnLoot();
         }
 
-        private void OnEnable()
-        {
-            _alarm.Finished += SpawnLoot;
-        }
-
-        private void OnDisable()
-        {
-            _alarm.Finished -= SpawnLoot;
-        }
-
         private Loot CreateLoot()
         {
             Loot newLoot = _lootFactory.Create();
-            newLoot.PlayerEntered += ReleaseLoot;
+            newLoot.PickedUp += ReleaseLoot;
+            newLoot.NeededSpawn += SpawnLoot;
             newLoot.Destroyed += Dispose;
 
             return newLoot;
@@ -46,7 +36,8 @@ namespace Source.Scripts
         private void Dispose(Loot loot)
         {
             loot.Destroyed -= Dispose;
-            loot.PlayerEntered -= ReleaseLoot;
+            loot.PickedUp -= ReleaseLoot;
+            loot.NeededSpawn -= SpawnLoot;
         }
 
         private void SpawnLoot()
@@ -58,9 +49,22 @@ namespace Source.Scripts
         private void OnGetLoot(Loot loot)
         {
             loot.gameObject.SetActive(true);
-            loot.transform.position = _spawnPosition.position;
+            loot.transform.position = GetLootPosition();
         }
 
+        private Vector2 GetLootPosition()
+        {
+            float halfDivider = 2.0f;
+            
+            Vector2 size = _lootCollider.bounds.size;
+            Vector2 center = _lootCollider.bounds.center;
+            
+            float x = Random.Range(center.x - size.x / halfDivider, center.x + size.x / halfDivider);
+            float y = Random.Range(center.y - size.y / halfDivider, center.y + size.y / halfDivider);
+            
+            return new Vector2(x, y);
+        }
+        
         private void ReleaseLoot(Loot loot)
         {
             _pool.Release(loot);
