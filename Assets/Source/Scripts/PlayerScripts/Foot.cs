@@ -1,21 +1,30 @@
+using System;
+using Source.Scripts.Scene;
 using UnityEngine;
 
-namespace Source.Scripts
+namespace Source.Scripts.PlayerScripts
 {
-    public class Foots : MonoBehaviour
+    public class Foot : MonoBehaviour
     {
+        private int _groundCollisionsEntered;
+
         public bool IsGrounded { get; private set; }
-        
+
+        private void Update()
+        {
+            IsGrounded = _groundCollisionsEntered > 0;
+        }
+
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if (collision.gameObject.TryGetComponent(out Platform _))
-                IsGrounded = true;
+                _groundCollisionsEntered++;
         }
-        
+
         private void OnCollisionExit2D(Collision2D collision)
         {
             if (collision.gameObject.TryGetComponent(out Platform _))
-                IsGrounded = false;
+                _groundCollisionsEntered--;
         }
     }
 }

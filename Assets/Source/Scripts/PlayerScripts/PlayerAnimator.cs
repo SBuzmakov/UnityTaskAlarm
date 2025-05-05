@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Source.Scripts
+namespace Source.Scripts.PlayerScripts
 {
     public class PlayerAnimator : MonoBehaviour
     {
@@ -11,27 +11,13 @@ namespace Source.Scripts
         private readonly int _idleClipHash = Animator.StringToHash(IdleClipName);
         
         [SerializeField] private Animator _animator;
-        [SerializeField] private InputService _inputService;
 
-
-        private void OnEnable()
-        {
-            _inputService.PressedMoveKey += PlayWalkClip;
-            _inputService.StoppedMove += PlayIdleClip;
-        }
-        
-        private void OnDisable()
-        {
-            _inputService.PressedMoveKey -= PlayWalkClip;
-            _inputService.StoppedMove -= PlayIdleClip;
-        }
-
-        private void PlayWalkClip()
+        public void PlayWalkClip()
         {
             _animator.Play(_walkClipHash);
         }
 
-        private void PlayIdleClip()
+        public void PlayIdleClip()
         {
             _animator.Play(_idleClipHash);
         }

@@ -1,14 +1,15 @@
 using UnityEngine;
 
-namespace Source.Scripts
+namespace Source.Scripts.PlayerScripts
 {
     public class PlayerMover : MonoBehaviour
     {
         [SerializeField] private Rigidbody2D _rigidbody;
         [SerializeField] private InputService _inputService;
-        [SerializeField] private Foots _foots;
+        [SerializeField] private Foot _foot;
         [SerializeField] private float _speed;
         [SerializeField] private float _jumpForce;
+        [SerializeField] private PlayerAnimator _playerAnimator;
 
         private bool _isFacingRight = true;
         private bool _needToJump;
@@ -43,7 +44,15 @@ namespace Source.Scripts
         {
             ChangeFacing();
 
-            transform.Translate(Vector3.right * (_speed * Time.deltaTime * _inputService.Direction));
+            if (_isFacingRight)
+                transform.Translate(Vector3.right * (_speed * Time.deltaTime * _inputService.Direction));
+            else
+                transform.Translate(Vector3.left * (_speed * Time.deltaTime * _inputService.Direction));
+
+            if (_inputService.Direction == 0f)
+                _playerAnimator.PlayIdleClip();
+            else
+                _playerAnimator.PlayWalkClip();
         }
 
         private void ChangeFacing()
@@ -59,16 +68,14 @@ namespace Source.Scripts
 
         private void Flip()
         {
-            Vector3 scale = transform.localScale;
-            scale.x *= -1;
-            transform.localScale = scale;
+            transform.Rotate(0f, 180f, 0f);
         }
 
         private void Jump()
         {
-            if (_foots.IsGrounded)
+            if (_foot.IsGrounded)
                 _rigidbody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
-            
+
             _needToJump = false;
         }
     }

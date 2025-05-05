@@ -1,9 +1,10 @@
 using System.Collections.Generic;
+using Source.Scripts.Extensions;
 using UnityEngine;
 
-namespace Source.Scripts
+namespace Source.Scripts.EnemyScripts
 {
-    public class EnemyMover : MonoBehaviour
+    public class WaypointsMover : MonoBehaviour
     {
         private const float ChangingWaypointDistance = 0.1f;
 

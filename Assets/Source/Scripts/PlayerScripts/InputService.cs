@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Source.Scripts
+namespace Source.Scripts.PlayerScripts
 {
     public class InputService : MonoBehaviour
     {
@@ -18,7 +18,7 @@ namespace Source.Scripts
         {
             Move();
 
-            OnJumpKeyPressed();
+            UpdateJumpInput();
         }
 
         private void Move()
@@ -31,7 +31,7 @@ namespace Source.Scripts
                 StoppedMove?.Invoke();
         }
 
-        private void OnJumpKeyPressed()
+        private void UpdateJumpInput()
         {
             if (Input.GetKeyDown(JumpKey))
                 PressedJumpKey?.Invoke();

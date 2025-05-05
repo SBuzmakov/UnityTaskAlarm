@@ -1,13 +1,15 @@
+using Source.Scripts.PlayerScripts;
 using UnityEngine;
 using UnityEngine.Pool;
 
-namespace Source.Scripts
+namespace Source.Scripts.LootScripts
 {
     public class LootSpawner : MonoBehaviour
     {
         [SerializeField] private Loot _lootPrefab;
-        [SerializeField] private Collider2D _lootCollider;
-        
+        [SerializeField] private Collider2D _lootZoneCollider;
+        [SerializeField] private Player _player;
+
         private ObjectPool<Loot> _pool;
         private LootFactory _lootFactory;
 
@@ -17,17 +19,26 @@ namespace Source.Scripts
 
             _pool = new ObjectPool<Loot>(
                 createFunc: CreateLoot,
-                actionOnGet: OnGetLoot
+                actionOnGet: OnGetLoot,
+                actionOnRelease: SpawnLoot
             );
 
-            SpawnLoot();
+            SpawnLoot(CreateLoot());
+        }
+
+        private void OnEnable()
+        {
+            _player.CollectedLoot += ReleaseLoot;
+        }
+
+        private void OnDisable()
+        {
+            _player.CollectedLoot -= ReleaseLoot;
         }
 
         private Loot CreateLoot()
         {
             Loot newLoot = _lootFactory.Create();
-            newLoot.PickedUp += ReleaseLoot;
-            newLoot.NeededSpawn += SpawnLoot;
             newLoot.Destroyed += Dispose;
 
             return newLoot;
@@ -36,13 +47,11 @@ namespace Source.Scripts
         private void Dispose(Loot loot)
         {
             loot.Destroyed -= Dispose;
-            loot.PickedUp -= ReleaseLoot;
-            loot.NeededSpawn -= SpawnLoot;
         }
 
-        private void SpawnLoot()
+        private void SpawnLoot(Loot loot)
         {
-            Loot loot = _pool.Get();
+            loot = _pool.Get();
             OnGetLoot(loot);
         }
 
@@ -55,16 +64,16 @@ namespace Source.Scripts
         private Vector2 GetLootPosition()
         {
             float halfDivider = 2.0f;
-            
-            Vector2 size = _lootCollider.bounds.size;
-            Vector2 center = _lootCollider.bounds.center;
-            
+
+            Vector2 size = _lootZoneCollider.bounds.size;
+            Vector2 center = _lootZoneCollider.bounds.center;
+
             float x = Random.Range(center.x - size.x / halfDivider, center.x + size.x / halfDivider);
             float y = Random.Range(center.y - size.y / halfDivider, center.y + size.y / halfDivider);
-            
+
             return new Vector2(x, y);
         }
-        
+
         private void ReleaseLoot(Loot loot)
         {
             _pool.Release(loot);

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Source.Scripts
+namespace Source.Scripts.EnemyScripts
 {
     public class Enemy : MonoBehaviour
     {
