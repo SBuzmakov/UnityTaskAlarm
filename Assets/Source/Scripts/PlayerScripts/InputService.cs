@@ -9,8 +9,6 @@ namespace Source.Scripts.PlayerScripts
         private const KeyCode JumpKey = KeyCode.Space;
 
         public event Action PressedJumpKey;
-        public event Action PressedMoveKey;
-        public event Action StoppedMove;
 
         public float Direction { get; private set; }
 
@@ -24,11 +22,6 @@ namespace Source.Scripts.PlayerScripts
         private void Move()
         {
             Direction = Input.GetAxis(AxisHorizontalName);
-
-            if (Direction != 0)
-                PressedMoveKey?.Invoke();
-            else
-                StoppedMove?.Invoke();
         }
 
         private void UpdateJumpInput()

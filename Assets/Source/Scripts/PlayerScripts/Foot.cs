@@ -1,4 +1,3 @@
-using System;
 using Source.Scripts.Scene;
 using UnityEngine;
 
