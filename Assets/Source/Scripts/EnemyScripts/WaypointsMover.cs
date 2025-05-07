@@ -57,7 +57,7 @@ namespace Source.Scripts.EnemyScripts
                     (_speed * Time.deltaTime));
 
             if (transform.position.IsEnoughClose(_waypoints[_currentWaypoint].position, ChangingWaypointDistance))
-                _currentWaypoint = (_currentWaypoint + 1) % _waypoints.Count;
+                _currentWaypoint = ++_currentWaypoint % _waypoints.Count;
             
             ChangeFacing();
         }
