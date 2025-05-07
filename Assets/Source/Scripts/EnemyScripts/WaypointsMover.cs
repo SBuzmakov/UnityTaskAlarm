@@ -32,19 +32,12 @@ namespace Source.Scripts.EnemyScripts
             if (transform.position.x < _previousPositionX && _isFacingRight ||
                 transform.position.x > _previousPositionX && _isFacingRight == false)
             {
-                Flip();
+                transform.FlipByAxisY();
 
                 _isFacingRight = !_isFacingRight;
             }
         }
-
-        private void Flip()
-        {
-            Vector3 scale = transform.localScale;
-            scale.x *= -1;
-            transform.localScale = scale;
-        }
-
+        
         private void Move()
         {
             _previousPositionX = transform.position.x;

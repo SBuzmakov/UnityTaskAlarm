@@ -1,3 +1,4 @@
+using Source.Scripts.Extensions;
 using UnityEngine;
 
 namespace Source.Scripts.PlayerScripts
@@ -60,15 +61,10 @@ namespace Source.Scripts.PlayerScripts
             if (_inputService.Direction < 0f && _isFacingRight ||
                 _inputService.Direction > 0f && _isFacingRight == false)
             {
-                Flip();
+                transform.FlipByAxisY();
 
                 _isFacingRight = !_isFacingRight;
             }
-        }
-
-        private void Flip()
-        {
-            transform.Rotate(0f, 180f, 0f);
         }
 
         private void Jump()
