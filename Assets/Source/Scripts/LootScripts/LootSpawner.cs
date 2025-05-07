@@ -1,6 +1,8 @@
-using Source.Scripts.PlayerScripts;
+using System;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Pool;
+using Random = UnityEngine.Random;
 
 namespace Source.Scripts.LootScripts
 {
@@ -8,7 +10,6 @@ namespace Source.Scripts.LootScripts
     {
         [SerializeField] private Loot _lootPrefab;
         [SerializeField] private Collider2D _lootZoneCollider;
-        [SerializeField] private Collector _collector;
 
         private ObjectPool<Loot> _pool;
         private LootFactory _lootFactory;
@@ -25,36 +26,30 @@ namespace Source.Scripts.LootScripts
             SpawnLoot(CreateLoot());
         }
 
-        private void OnEnable()
-        {
-            _collector.CollectedLoot += ReleaseLoot;
-        }
-
-        private void OnDisable()
-        {
-            _collector.CollectedLoot -= ReleaseLoot;
-        }
-
         private Loot CreateLoot()
         {
             Loot newLoot = _lootFactory.Create();
             newLoot.Destroyed += Dispose;
-
+            newLoot.PickedUp += ReleaseLoot;
             return newLoot;
         }
 
         private void Dispose(Loot loot)
         {
             loot.Destroyed -= Dispose;
+            loot.PickedUp -= ReleaseLoot;
         }
 
         private void SpawnLoot(Loot loot)
         {
+            if (!loot)
+                throw new ArgumentNullException(nameof(loot));
+
             loot = _pool.Get();
             loot.gameObject.SetActive(true);
             loot.transform.position = GetLootPosition();
         }
-        
+
         private Vector2 GetLootPosition()
         {
             float halfDivider = 2.0f;
