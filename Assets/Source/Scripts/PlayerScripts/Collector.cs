@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Source.Scripts.PlayerScripts
 {
-    public class Player : MonoBehaviour
+    public class Collector : MonoBehaviour
     {
         public event Action<Loot> CollectedLoot;
 

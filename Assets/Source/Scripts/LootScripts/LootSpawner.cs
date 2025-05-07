@@ -8,7 +8,7 @@ namespace Source.Scripts.LootScripts
     {
         [SerializeField] private Loot _lootPrefab;
         [SerializeField] private Collider2D _lootZoneCollider;
-        [SerializeField] private Player _player;
+        [SerializeField] private Collector _collector;
 
         private ObjectPool<Loot> _pool;
         private LootFactory _lootFactory;
@@ -28,12 +28,12 @@ namespace Source.Scripts.LootScripts
 
         private void OnEnable()
         {
-            _player.CollectedLoot += ReleaseLoot;
+            _collector.CollectedLoot += ReleaseLoot;
         }
 
         private void OnDisable()
         {
-            _player.CollectedLoot -= ReleaseLoot;
+            _collector.CollectedLoot -= ReleaseLoot;
         }
 
         private Loot CreateLoot()
