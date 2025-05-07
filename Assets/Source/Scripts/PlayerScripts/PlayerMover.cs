@@ -5,74 +5,35 @@ namespace Source.Scripts.PlayerScripts
 {
     public class PlayerMover : MonoBehaviour
     {
-        [SerializeField] private Rigidbody2D _rigidbody;
-        [SerializeField] private InputService _inputService;
-        [SerializeField] private Foot _foot;
         [SerializeField] private float _speed;
         [SerializeField] private float _jumpForce;
-        [SerializeField] private PlayerAnimator _playerAnimator;
 
         private bool _isFacingRight = true;
-        private bool _needToJump;
 
-        private void OnEnable()
+        public void Jump(Rigidbody2D rb)
         {
-            _inputService.PressedJumpKey += OnJump;
+            rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
         }
 
-        private void OnJump()
+        public void Move(Rigidbody2D rb, float direction)
         {
-            _needToJump = true;
-        }
-
-        private void Update()
-        {
-            Move();
-        }
-
-        private void FixedUpdate()
-        {
-            if (_needToJump)
-                Jump();
-        }
-
-        private void OnDisable()
-        {
-            _inputService.PressedJumpKey -= OnJump;
-        }
-
-        private void Move()
-        {
-            ChangeFacing();
-
+            ChangeFacing(rb, direction);
+        
             if (_isFacingRight)
-                transform.Translate(Vector3.right * (_speed * Time.deltaTime * _inputService.Direction));
+                rb.transform.Translate(Vector3.right * (_speed * Time.deltaTime * direction));
             else
-                transform.Translate(Vector3.left * (_speed * Time.deltaTime * _inputService.Direction));
-
-            if (_inputService.Direction == 0f)
-                _playerAnimator.PlayIdleClip();
-            else
-                _playerAnimator.PlayWalkClip();
+                rb.transform.Translate(Vector3.left * (_speed * Time.deltaTime * direction));
         }
-
-        private void ChangeFacing()
+        
+        private void ChangeFacing(Rigidbody2D rb, float direction)
         {
-            if (_inputService.Direction < 0f && _isFacingRight ||
-                _inputService.Direction > 0f && _isFacingRight == false)
+            if (direction < 0f && _isFacingRight ||
+                direction > 0f && _isFacingRight == false)
             {
-                transform.FlipByAxisY();
-
+                rb.transform.FlipByAxisY();
+        
                 _isFacingRight = !_isFacingRight;
             }
-        }
-
-        private void Jump()
-        {
-            if (_foot.IsGrounded)
-                _rigidbody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
-
-            _needToJump = false;
         }
     }
 }

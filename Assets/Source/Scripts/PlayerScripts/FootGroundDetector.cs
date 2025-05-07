@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Source.Scripts.PlayerScripts
 {
-    public class Foot : MonoBehaviour
+    public class FootGroundDetector : MonoBehaviour
     {
         private int _groundCollisionsEntered;
 

@@ -8,9 +8,9 @@ namespace Source.Scripts.PlayerScripts
     {
         public event Action<Loot> CollectedLoot;
 
-        private void OnCollisionEnter2D(Collision2D collision)
+        private void OnTriggerEnter2D(Collider2D other)
         {
-            if (collision.gameObject.TryGetComponent(out Loot loot))
+            if (other.TryGetComponent(out Loot loot))
             {
                 CollectedLoot?.Invoke(loot);
             }

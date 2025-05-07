@@ -14,14 +14,9 @@ namespace Source.Scripts.PlayerScripts
 
         private void Update()
         {
-            Move();
-
-            UpdateJumpInput();
-        }
-
-        private void Move()
-        {
             Direction = Input.GetAxis(AxisHorizontalName);
+            
+            UpdateJumpInput();
         }
 
         private void UpdateJumpInput()

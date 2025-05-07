@@ -19,7 +19,6 @@ namespace Source.Scripts.LootScripts
 
             _pool = new ObjectPool<Loot>(
                 createFunc: CreateLoot,
-                actionOnGet: OnGetLoot,
                 actionOnRelease: SpawnLoot
             );
 
@@ -52,15 +51,10 @@ namespace Source.Scripts.LootScripts
         private void SpawnLoot(Loot loot)
         {
             loot = _pool.Get();
-            OnGetLoot(loot);
-        }
-
-        private void OnGetLoot(Loot loot)
-        {
             loot.gameObject.SetActive(true);
             loot.transform.position = GetLootPosition();
         }
-
+        
         private Vector2 GetLootPosition()
         {
             float halfDivider = 2.0f;
