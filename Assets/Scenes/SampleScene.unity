@@ -5957,7 +5957,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lootPrefab: {fileID: 3976486673190032816, guid: c1dfa937dc271c240957f8ba7391d309, type: 3}
   _lootZoneCollider: {fileID: 1165355818}
-  _collector: {fileID: 2105388794}
 --- !u!1 &1007615864
 GameObject:
   m_ObjectHideFlags: 0
@@ -7139,7 +7138,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 4.63, y: 4.24}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -7149,7 +7148,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 13, y: 2}
   m_EdgeRadius: 0
 --- !u!1 &1205650243
 GameObject:
@@ -9238,6 +9237,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6953181125073585173, guid: c67ceef7259264c48bfa2e53f8e73265, type: 3}
+      propertyPath: _rigidbody
+      value: 
+      objectReference: {fileID: 1711083638}
+    - target: {fileID: 6953181125073585173, guid: c67ceef7259264c48bfa2e53f8e73265, type: 3}
       propertyPath: _inputService
       value: 
       objectReference: {fileID: 1205650244}
@@ -10924,17 +10927,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &2105388794 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7253336138672832676, guid: c67ceef7259264c48bfa2e53f8e73265, type: 3}
-  m_PrefabInstance: {fileID: 1646153629}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 266f9e21a2b1b9f439b22b6592f1f2b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2128437358
 GameObject:
   m_ObjectHideFlags: 0
